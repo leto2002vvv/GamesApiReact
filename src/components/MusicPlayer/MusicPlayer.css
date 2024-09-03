@@ -1,0 +1,19 @@
+.typing-animation {
+    overflow: hidden;
+    animation:
+        typing 3.5s steps(50, end);
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.songsText {
+    font-size: clamp(0.36rem, calc(0.20rem + 0.54vw), 0.94rem);
+}

@@ -1,0 +1,8 @@
+@import url(https://fonts.googleapis.com/css?family=Press+Start+2P:regular);
+
+body {
+    font-family: 'Press Start 2P';
+    font-weight: normal;
+    font-style: normal;
+    font-size: clamp(0.56rem, calc(0.46rem + 0.54vw), 0.94rem);
+}
