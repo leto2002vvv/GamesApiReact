@@ -1,6 +1,7 @@
 import React from 'react'
-import './GameList.css'
 
+import GameCardModal from '../GameCardModal/GameCardModal'
+import './GameList.css'
 import Cart from '../../assets/cart.svg'
 
 const GameList = ({ games, isLoading }) => {
@@ -13,11 +14,11 @@ const GameList = ({ games, isLoading }) => {
         (<div className='flex justify-center items-center h-100% mx-auto'> Loading... </div>) :
         games.length > 0 ? // условие, когда загрузка завершилась, и мы рендерим получившееся на страницу
 
-          (<ul className='grid grid-cols-4 gap-4 my-[200px]'>
+          (<ul className='grid grid-cols-4 gap-4'>
             {games.map((game) =>
 
               <li key={game.id}
-                className='img-bg flex justify-center items-center shadow-2xl cursor-pointer'
+                className='img-bg w-[160px] flex justify-center items-center shadow-2xl cursor-pointer'
                 data-aos="fade-up"
                 data-aos-anchor-placement="center-bottom">
                 
@@ -37,8 +38,11 @@ const GameList = ({ games, isLoading }) => {
 
           </ul>) :
 
-          (<p> nothing found </p>)
+          (<p> </p>) // ТУТ ДОЛЖНО БЫТЬ ТИПО NOTHING FOUND. НО ИЗ-ЗА ТОГО ЧТО СЕЙЧАС СТОИТ ISLOADING FALSE, ТО ВЫПОЛНЯЕТСЯ УСЛОВИЕ В ЭТОЙ <P></P>.  В ЕЛЕМЕНТЕ, В КОТОРОМ МЫ УКАЗ. ПРОПСЫ ПОЯВЛЯЕТСЯ ЭТА САМАЯ <P></P>
       }
+
+      <GameCardModal />
+
     </div>
   )
 }
