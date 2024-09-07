@@ -1,0 +1,11 @@
+.input:not(:placeholder-shown) + .label {
+    transition: all .5s ease-in-out;
+    scale: 1;
+    translate: 0;
+}
+
+.input:not([value='']) + .label {
+    color: rgb(52, 50, 50);
+    scale: .8;
+    translate: -4.4em -2.2em;
+}
