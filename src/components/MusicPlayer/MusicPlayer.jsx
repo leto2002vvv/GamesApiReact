@@ -89,11 +89,6 @@ const MusicPlayer = () => {
             const bandName = bandNameRef.current;
             const songCover = songCoverRef.current;
 
-            songCover.onload = () => {
-                console.log('img is loaded');
-            }
-
-
             let bandLink = `<a href = "${tracks[currentIndex].page}"
                                target = '_blank'
                                rel = 'noopener noreferrer'
@@ -103,76 +98,83 @@ const MusicPlayer = () => {
 
             if (!bandName.classList.contains('typing-animation')) { // ДОБАВЛЯЕТ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ И ЧЕРЕЗ РАЗ !!!!!!!!!!!!!!!
                 bandName.classList.add('typing-animation');
-            } else if (bandName.classList.contains('typing-animation')) {
+            } else {
                 bandName.classList.remove('typing-animation');
-            }              //  УБРАТЬ ПРОБЛЕМУ С РАСШИРЯЩИМСЯ ВВЕРХ ПЕЧАТАЮЩИМСЯ ТЕКСТОМ
+            }
 
             if (!songName.classList.contains('typing-animation')) { // ДОБАВЛЯЕТ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ И ЧЕРЕЗ РАЗ !!!!!!!!!!!!!!!
                 songName.classList.add('typing-animation');
-            } else if (songName.classList.contains('typing-animation')) {
+            } else {
                 songName.classList.remove('typing-animation');
-            }              //  УБРАТЬ ПРОБЛЕМУ С РАСШИРЯЩИМСЯ ПЕЧАТАЮЩИМСЯ ТЕКСТОМ
+            }
 
             bandName.innerHTML = bandLink; // исполнитель и ссылка на спотифай в <р>
 
             songName.textContent = `song: ${tracks[currentIndex].track.toLowerCase()}`; // название трека в <р>
         };
-        
-
         displaySongsName();
     }, [currentIndex]);
 
+
     return (
-        <div className='flex items-center gap-6 max-w-[340px] flex-wrap'
-            data-aos="fade-up"
-            data-aos-anchor-placement="center-center">
-            <audio
-                src={tracks[currentIndex].src}
-                // autoPlay
-                id="audio">
-            </audio>
+        <div className='flex flex-col gap-2'>
+            <div className='flex items-center gap-6 max-w-[340px] flex-wrap'
+                data-aos="fade-up"
+                data-aos-anchor-placement="center-center">
+                <audio
+                    src={tracks[currentIndex].src}
+                    // autoPlay
+                    id="audio">
+                </audio>
 
-            <figure className='cursor-pointer flex gap-1 items-center hover:grayscale transition-color duration-100 transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
-                id='prevBtn'
-                onClick={prevSong}>
-                <img src={Triangle}
-                    alt="Previous track"
-                    className='max-w-[40px] rounded-full'
-                />
-                <figcaption className='hover:text-gray-600'> prev </figcaption>
-            </figure>
+                <figure className='cursor-pointer flex gap-1 items-center hover:grayscale transition-color transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
+                    id='prevBtn'
+                    onClick={prevSong}>
+                    <img src={Triangle}
+                        alt="Previous track"
+                        className='max-w-[40px] rounded-full'
+                    />
+                    <figcaption className='hover:text-gray-600'> prev </figcaption>
+                </figure>
 
-            <button
-                className='hover:text-gray-600 transition-color duration-100 transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
-                onClick={playStop}
-                id='btnPlayStop'>
-                stop
-            </button>
+                <button
+                    className='hover:text-gray-600 transition-color transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
+                    onClick={playStop}
+                    id='btnPlayStop'>
+                    stop
+                </button>
 
-            <figure className='cursor-pointer flex gap-1 items-center hover:grayscale transition-color duration-100 transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
-                id='nextBtn'
-                onClick={nextSong}
-            >
-                <img src={xButton}
-                    alt="Next track"
-                    className='max-w-[40px] rounded-full'
-                />
-                <figcaption className='hover:text-gray-600'> next </figcaption>
-            </figure>
-            <div className='min-w-[340px] min-h-[40px]'>
-                <img
-                    className='min-w-[40px] min-h-[40px]'
-                    src={tracks[currentIndex].poster}
-                    id='cover'
-                    alt={`cover to ${tracks[currentIndex].track.toLowerCase()}`}
-                    ref={songCoverRef}
-                    loading='lazy'
-                />
-                <p id='bandName' ref={bandNameRef} className='songsText  leading-none overflow-hidden typing-animation'></p>
-                <p id='songName' ref={songNameRef} className='songsText typing-animation'></p>
+                <figure className='cursor-pointer flex gap-1 items-center hover:grayscale transition-color transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
+                    id='nextBtn'
+                    onClick={nextSong}
+                >
+                    <img src={xButton}
+                        alt="Next track"
+                        className='max-w-[40px] rounded-full'
+                    />
+                    <figcaption className='hover:text-gray-600'> next </figcaption>
+                </figure>
             </div>
-
+            <div className='flex flex-col gap-2'>
+                <div className='flex gap-2'>
+                    <div className="">
+                        <img
+                            className=''
+                            src={tracks[currentIndex].poster}
+                            id='cover'
+                            alt='cover'
+                            ref={songCoverRef}
+                            loading='lazy'
+                        />
+                    </div>
+                    <div>
+                        <p id='bandName' ref={bandNameRef} className='songsText  leading-none overflow-hidden typing-animation'></p>
+                        <p id='songName' ref={songNameRef} className='songsText typing-animation'></p>
+                    </div>
+                </div>
+            </div>
         </div>
+
     )
 }
 

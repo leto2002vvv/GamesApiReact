@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom'
 
+import '../woah-animation.css'
 import AOS from 'aos';
 import '../node_modules/aos/dist/aos.css';
 
@@ -23,7 +24,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className='flex justify-center my-7 items-center flex-col gap-3'>
-        <div className="flex">
+        <div className="flex justify-end items-start">
           <MusicPlayer />
           <Nav />
         </div>

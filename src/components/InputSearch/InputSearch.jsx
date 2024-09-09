@@ -33,9 +33,8 @@ const InputSearch = ({ onSearch }) => {
                     <div className="relative ">
                         <input
                             ref={ inputRef }
-                            href
                             type="text"
-                            placeholder
+                            placeholder // HERE I'VE GOT A WARNING Received `true` for a non-boolean attribute `placeholder` BUT IF I ADD = '', THE ERROR DISSAPEARS, BUT INSTEAD, THE ANIMATION OF RETURNING LABEL ON IT'S PLACE DOESN'T WORK PROPERLY
                             id="search"
                             value={inputValue} // передаем в app value input'a 
                             onChange={setNewSearchTerm}

@@ -6,6 +6,6 @@
 
 .input:not([value='']) + .label {
     color: rgb(52, 50, 50);
-    scale: .8;
+    scale: .7;
     translate: -4.4em -2.2em;
 }

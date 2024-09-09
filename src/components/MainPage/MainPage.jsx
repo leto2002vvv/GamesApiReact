@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import InputSearch from '../InputSearch/InputSearch';
 import GameList from '../GameList/GameList';
-import FilterByRelease from '../Filters/FilterByRelease/FilterByRelease'
-import FilterByRating from '../Filters/FilterByRating/FilterByRating';
+import Filter from '../Filter/Filter'
+
 
 
 const MainPage = () => {
 
     const [games, setGames] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [toSortByAge, setToSortByAge] = useState('newest');
-    const [toSortByRating, setToSortByRating] = useState('best');
+    const [toSort, setToSort] = useState('newest');
 
     const fetchGames = async (term) => { // функция отправки запроса API 
         setIsLoading(true)
@@ -35,23 +34,19 @@ const MainPage = () => {
         }
     };
 
-    const sortGames = (games, sortBy, sortedBy) => { // ПОДРУЖИТЬ ДВЕ СОРТИРОВКИ !!!!!!!!!!!!!!!!!!!!!!
-        return games.sort((a, b) => {
-            if (sortBy === toSortByAge) {
-                return sortedBy === 'newest' ? b.released - a.released : a.released - b.released;
-            } else if (sortBy === toSortByRating) {
-                return sortedBy === 'best' ? b.rating - a.rating : a.rating - b.rating;
+    const sortGames = (arr, value) => { // sorting games arr by age and rating 
+        return arr.sort((a, b) => {
+            if (value === 'newest') {
+                return b.released - a.released;
+            } else if (value === 'best') {
+                return b.rating - a.rating;
             } else {
-                return 0
+                null
             }
-        });
+        })
     }
 
-    const toSortByAgeFunc = sortGames(games, toSortByAge, toSortByAge === 'newest' ? 'newest' : 'oldest');
-    const toSortByRatingFunc = sortGames(games, toSortByRating, toSortByRating === 'best' ? 'best': 'worst')
-
-    // const sortedByAge = games.sort((a, b) => toSortByAge === 'newest' ? b.released - a.released : a.released - b.released)
-    // const sortedByRating = games.sort((a, b) => toSortByRating === 'best' ? b.rating - a.rating : a.rating - b.rating)
+    const toSortFunc = sortGames(games, toSort) // here is the func sortGames being called
 
     return (
         <>
@@ -61,11 +56,8 @@ const MainPage = () => {
                 </div>
             ) : (
                 <>
-                    <InputSearch onSearch={fetchGames}/>
-                    <div className="flex gap-4 items-center">
-                        <FilterByRelease toSortByAge={toSortByAge} setToSortByAge={setToSortByAge} />
-                        <FilterByRating toSortByRating={toSortByRating} setToSortByRating={setToSortByRating} />
-                    </div>
+                    <InputSearch onSearch={fetchGames} />
+                    <Filter toSort={toSort} setToSort={setToSort} />
                     <GameList games={games} isLoading={isLoading} />
                 </>
             )}
