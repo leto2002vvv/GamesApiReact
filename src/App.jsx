@@ -7,13 +7,10 @@ import '../node_modules/aos/dist/aos.css';
 
 import MusicPlayer from './components/MusicPlayer/MusicPlayer';
 import Nav from './components/Nav/Nav';
-import InputSearch from './components/InputSearch/InputSearch';
-import GameList from './components/GameList/GameList';
 import Main from './components/MainPage/MainPage';
-// import List from './components/List/List';
 import Added from './components/Added/Added';
 
-import './App.css'
+import './App.css';
 
 function App() {
 
@@ -30,7 +27,6 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Main />} />
-          {/* <Route path="/list" element={<List />} /> */}
           <Route path="/added" element={<Added />} />
         </Routes>
       </div>

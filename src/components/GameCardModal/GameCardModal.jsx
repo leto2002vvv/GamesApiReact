@@ -18,8 +18,6 @@ const GameCardModal = ({ visible, onClose, currGame }) => {
     else return 'red';
   };
 
-  console.log(getMetacriticColor({ currGame }));
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 w-full h-screen transition-all duration-500 ease-in-out ">
       <div className=' bg-cover rounded-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center fixed inset-0 w-2/4 h-2/4 '

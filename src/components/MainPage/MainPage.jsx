@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
+
 import InputSearch from '../InputSearch/InputSearch';
 import GameList from '../GameList/GameList';
 import Filter from '../Filter/Filter'
-
-
+import PriceGenerator from '../PriceGenerator/PriceGenerator'
 
 const MainPage = () => {
 
     const [games, setGames] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [toSort, setToSort] = useState('newest');
+    
 
     const fetchGames = async (term) => { // функция отправки запроса API 
         setIsLoading(true)
@@ -59,6 +60,7 @@ const MainPage = () => {
                     <InputSearch onSearch={fetchGames} />
                     <Filter toSort={toSort} setToSort={setToSort} />
                     <GameList games={games} isLoading={isLoading} />
+                    <PriceGenerator games={games}/>
                 </>
             )}
         </>

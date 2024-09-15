@@ -123,7 +123,7 @@ const MusicPlayer = () => {
                 data-aos-anchor-placement="center-center">
                 <audio
                     src={tracks[currentIndex].src}
-                    // autoPlay
+                    autoPlay
                     id="audio">
                 </audio>
 
