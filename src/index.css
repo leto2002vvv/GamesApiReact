@@ -3,19 +3,44 @@
 @tailwind utilities;
 
 :root {
-  line-height: 1.5;
-  font-weight: 400;
+	line-height: 1.5;
+	font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #575252;
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: #575252;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	display: flex;
+	justify-content: center;
+
+	text-shadow: 1px 1px 2px rgba(88, 27, 87, 0.8);
+
+	background: rgb(50, 34, 46);
+	background: linear-gradient(
+		90deg,
+		rgba(50, 34, 46, 1) 0%,
+		rgb(54, 21, 66) 63%,
+		rgb(44, 7, 48) 100%
+	);
 }
 
-* {
-  /* outline: 1px solid black; */
+.animation {
+	animation: typing 3s steps(7), cursor 0.5s step-end infinite alternate;
+}
+
+@keyframes cursor {
+	50% {
+		border-color: transparent;
+	}
+}
+
+@keyframes typing {
+	from {
+		width: 0;
+	}
 }

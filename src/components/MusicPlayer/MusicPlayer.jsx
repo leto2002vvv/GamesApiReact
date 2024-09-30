@@ -3,71 +3,53 @@ import WaveSurfer from 'wavesurfer.js'
 
 import './MusicPlayer.css'
 
-import Triangle from '../../assets/triangle-btn.jpg';
+import Triangle from '../../assets/triangle-btn.jpg'
 import xButton from '../../assets/x-btn.jpg'
+import MusicNote from '../../assets/music-note.svg'
 
-const MusicPlayer = () => {
+const MusicPlayer = ({ tracks }) => {
+    const refs = useRef({
+        songNameRef: null,
+        bandNameRef: null,
+        songCoverRef: null,
+        audioRef: null,
+        btnPlayStopRef: null
+    })
 
-    const songNameRef = useRef(null);
-    const bandNameRef = useRef(null);
-    const songCoverRef = useRef(null);
-
-    const tracks = [
-        {
-            band: 'Deftones',
-            track: 'Be Quiet And Drive Far Away',
-            src: '../../src/assets/tracks/DeftonesBeQuietAndDriveFarAway.mp3',
-            page: 'https://open.spotify.com/artist/6Ghvu1VvMGScGpOUJBAHNH',
-            poster: '../../assets/deftones-cover-be-quiet.jpg'
-        },
-        {
-            band: 'Deftones ',
-            track: 'Change In The House Of Flies',
-            src: '../../src/assets/tracks/DeftonesChangeInTheHouseOfFlies.mp3',
-            page: 'https://open.spotify.com/artist/6Ghvu1VvMGScGpOUJBAHNH',
-            poster: '../../assets/deftones-cover-change.jpg'
-        },
-        {
-            band: 'Marilyn Manson ',
-            track: 'The Beautiful People',
-            src: '../../src/assets/tracks/MarilynMansonTheBeautifulPeople.mp3',
-            page: 'https://open.spotify.com/artist/2VYQTNDsvvKN9wmU5W7xpj',
-            poster: '../../assets/manson-cover-beautiful-ppl.jpg'
-        },
-        {
-            band: 'quannnic',
-            track: 'Life Imitates Life',
-            src: '../../src/assets/tracks/quannnicLifeImitatesLife.mp3',
-            page: 'https://open.spotify.com/artist/6X9yxRiccMK40GHKfUFZEu',
-            poster: '../../assets/quantoc-cover-life-imitates-life.jpg'
-        }
-    ];
-
-    const [currentIndex, setCurrentIndex] = useState(1); // состояние array tracks
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [playerDetails, setPlayerDetails] = useState({
+        currentIndex: 1,
+        isPlaying: false
+    })
 
     const nextSong = () => { // следующий трек
-        const nextBtn = document.querySelector('#nextBtn');
-        setCurrentIndex((currentIndex + 1) % tracks.length);
+        const newIndex = (playerDetails.currentIndex + 1) % tracks.length
+
+        setPlayerDetails(prev => ({
+            ...prev,
+            currentIndex: newIndex
+        }))
     }
 
     const prevSong = () => { // предыдущий трек 
-        const prevBtn = document.querySelector('#prevBtn');
-        setCurrentIndex((currentIndex - 1 + tracks.length) % tracks.length);
+        const newIndex = (playerDetails.currentIndex - 1 + tracks.length) % tracks.length
+
+        setPlayerDetails(prev => ({
+            ...prev,
+            currentIndex: newIndex
+        }))
     }
 
-    const playStop = () => { // кнопка пауза продолжать
-        const audio = document.querySelector('#audio');
-        const btnPlayStop = document.querySelector('#btnPlayStop')
+    // useEffect(() => {
+    //     const audio = refs.current.audioRef;
 
-        if (audio.paused) {
-            audio.play();
-            btnPlayStop.textContent = 'stop';
-        } else {
-            audio.pause();
-            btnPlayStop.textContent = 'play';
-        }
-    };
+    //     if (playerDetails.isPlaying) {
+    //         audio.play()
+    //         refs.current.btnPlayStopRef.textContent = 'stop'
+    //     } else {
+    //         audio.pause()
+    //         refs.current.btnPlayStopRef.textContent = 'play'
+    //     }
+    // }, [playerDetails.isPlaying])
 
     const formWaveSurferOptions = (ref) => ({
         container: ref,
@@ -85,95 +67,107 @@ const MusicPlayer = () => {
     useEffect(() => {
         const displaySongsName = async () => {
 
-            const songName = songNameRef.current;
-            const bandName = bandNameRef.current;
-            const songCover = songCoverRef.current;
+            const songName = refs.songNameRef.current
+            const bandName = refs.bandNameRef.current
+            const songCover = refs.songCoverRef.current
 
-            let bandLink = `<a href = "${tracks[currentIndex].page}"
+            let bandLink = `<a href = "${tracks[playerDetails.currentIndex].page}"
                                target = '_blank'
                                rel = 'noopener noreferrer'
-                               class = 'hover:text-gray-600'>
-                               band: ${tracks[currentIndex].band.toLowerCase()}   
-                            </a>`;
+                               class = 'hover:text-fuchsia-500 transition-all duration-300 ease-in-out'>
+                               band: ${tracks[playerDetails.currentIndex].band.toLowerCase()}   
+                            </a>`
 
             if (!bandName.classList.contains('typing-animation')) { // ДОБАВЛЯЕТ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ И ЧЕРЕЗ РАЗ !!!!!!!!!!!!!!!
-                bandName.classList.add('typing-animation');
+                bandName.classList.add('typing-animation')
             } else {
-                bandName.classList.remove('typing-animation');
+                bandName.classList.remove('typing-animation')
             }
 
             if (!songName.classList.contains('typing-animation')) { // ДОБАВЛЯЕТ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ И ЧЕРЕЗ РАЗ !!!!!!!!!!!!!!!
-                songName.classList.add('typing-animation');
+                songName.classList.add('typing-animation')
             } else {
-                songName.classList.remove('typing-animation');
+                songName.classList.remove('typing-animation')
             }
 
-            bandName.innerHTML = bandLink; // исполнитель и ссылка на спотифай в <р>
+            bandName.innerHTML = bandLink // исполнитель и ссылка на спотифай в <р>
 
-            songName.textContent = `song: ${tracks[currentIndex].track.toLowerCase()}`; // название трека в <р>
-        };
-        displaySongsName();
-    }, [currentIndex]);
-
+            songName.textContent = `song: ${tracks[playerDetails.currentIndex].track.toLowerCase()}` // название трека в <р>
+        }
+        displaySongsName()
+    }, [playerDetails.currentIndex])
 
     return (
         <div className='flex flex-col gap-2'>
-            <div className='flex items-center gap-6 max-w-[340px] flex-wrap'
+            <div className='flex items-center gap-6 max-w-[340px] flex-wrap relative'
                 data-aos="fade-up"
                 data-aos-anchor-placement="center-center">
                 <audio
-                    src={tracks[currentIndex].src}
-                    autoPlay
-                    id="audio">
+                    src={tracks[playerDetails.currentIndex].src}
+                    // autoPlay
+                    ref={refs.current.audioRef}>
                 </audio>
 
-                <figure className='cursor-pointer flex gap-1 items-center hover:grayscale transition-color transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
+                <figure className='cursor-pointer flex gap-1 items-center hover: transition-all transform hover:translate-x-1  duration-500 ease-in-out'
                     id='prevBtn'
                     onClick={prevSong}>
                     <img src={Triangle}
                         alt="Previous track"
-                        className='max-w-[40px] rounded-full'
+                        className='max-w-[20px] rounded-full'
                     />
-                    <figcaption className='hover:text-gray-600'> prev </figcaption>
+                    <figcaption className='hover:text-fuchsia-500 transition-all duration-300 ease-in-out'> prev </figcaption>
                 </figure>
 
                 <button
-                    className='hover:text-gray-600 transition-color transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
-                    onClick={playStop}
-                    id='btnPlayStop'>
+                    className='hover:text-fuchsia-500 transition-all transform hover:translate-x-1 duration-300'
+                    onClick={() => {
+                        setPlayerDetails(prev => {
+                            return {
+                                ...prev,
+                                isPlaying: !prev.isPlaying
+                            }
+                        })
+                    }}
+                    ref={refs.current.btnPlayStopRef}>
                     stop
                 </button>
 
-                <figure className='cursor-pointer flex gap-1 items-center hover:grayscale transition-color transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
+                <figure className='cursor-pointer flex gap-1 items-center transition-color transform hover:translate-x-1 transition-transform duration-500 ease-in-out'
                     id='nextBtn'
                     onClick={nextSong}
                 >
                     <img src={xButton}
                         alt="Next track"
-                        className='max-w-[40px] rounded-full'
+                        className='max-w-[20px] rounded-full'
                     />
-                    <figcaption className='hover:text-gray-600'> next </figcaption>
+                    <figcaption className='hover:text-fuchsia-500 duration-300 transition-all'> next </figcaption>
                 </figure>
+                <div className={`absolute -top-1 left-[281px] flex ${playerDetails.isPlaying ? 'pulse' : ''}`}>
+                    <img src={MusicNote} alt="decoration" className={`w-7`} />
+                    <img src={MusicNote} alt="decoration" className={`w-4 rotate-12`} />
+                </div>
             </div>
             <div className='flex flex-col gap-2'>
                 <div className='flex gap-2'>
                     <div className="">
                         <img
                             className=''
-                            src={tracks[currentIndex].poster}
+                            src={tracks[playerDetails.currentIndex].poster}
                             id='cover'
                             alt='cover'
-                            ref={songCoverRef}
+                            ref={refs.current.songCoverRef}
                             loading='lazy'
                         />
                     </div>
-                    <div>
-                        <p id='bandName' ref={bandNameRef} className='songsText  leading-none overflow-hidden typing-animation'></p>
-                        <p id='songName' ref={songNameRef} className='songsText typing-animation'></p>
+                    <div className=' whitespace-nowrap overflow-ellipsis'>
+                        <div className='bouncing-text'>
+                            <p id='bandName' ref={refs.current.bandNameRef} className='songsText leading-none typing-animation'></p>
+                            <p id='songName' ref={refs.current.songNameRef} className='songsText typing-animation'></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }

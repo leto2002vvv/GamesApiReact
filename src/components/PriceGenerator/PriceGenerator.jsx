@@ -1,44 +1,74 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext } from "react"
+import { useGameDataContext } from "../../providers/PriceAndReleaseProvider"
 
 const PriceGenerator = ({ games }) => {
+    const { gameData, setGameData } = useGameDataContext()
 
     const calculatePrice = (game) => {
-        const rating = game.rating || 0;
-        const metacritic = game.metacritic || 0;
+        const rating = game.rating || 0
+        const metacritic = game.metacritic || 0
+        const released = game.released || 0
+        const oneYearAgo = new Date(new Date().getFullYear() - 1, new Date().getMonth(), new Date().getDate())
 
-        let price = 0;
+        let price = 0
 
-        if (rating >= 3.5 && metacritic >= 70) {
-            price = 40;
+        if (rating >= 3.5 && metacritic >= 70 && released > oneYearAgo) {
+            price = 40
         } else if (!rating && !metacritic) {
-            price = 0.99;
+            price = 0.99
         }
         else if (!rating || !metacritic) {
-            price = 5;
+            price = 5
         }
         else if (rating < 3.5 || metacritic < 70) {
-            price = 25;
+            price = 25
+        } else {
+            price = 15
         }
-        return price;
-    };
+        return price
+    }
 
-    const formateReleaseDate = ( releaseDate ) => {
-        const year = releaseDate.getFullYear();
+    const formateReleaseDate = (releaseDate) => {
+        const year = releaseDate.getFullYear()
         const date = releaseDate.getDate()
-        const month = String(releaseDate.getMonth() + 1);
+        const month = String(releaseDate.getMonth() + 1)
 
         return `${date}-${month}-${year}`
     }
 
     const calculateDaysTillRelease = (release) => {
-        const currDate = new Date();
-        const releaseDate = new Date(release);
+        const currDate = new Date()
+        const releaseDate = new Date(release)
 
-        if (releaseDate > currDate) {
-            const counterToRelease = Math.floor((releaseDate - currDate) / (1000 * 60 * 60 * 24))
-            return counterToRelease
-        } else return release;
+        const counterToRelease = Math.floor((releaseDate - currDate) / (1000 * 60 * 60 * 24))
+
+        return counterToRelease
     }
+
+    const CalculatedFormattedGames = games.map(game => ({
+        ...game,
+        calculatedPrice: calculatePrice(game),
+        formatedReleaseDate: formateReleaseDate(game.released),
+        calculatedDaysTillRelease: calculateDaysTillRelease(game.released),
+    }))
+
+    useEffect(() => {
+
+    })
+
+
+    return (
+        <>
+            {
+                CalculatedFormattedGames.map((game, index) => (
+                    <div key={index}>
+                        <p> price: {game.calculatedPrice}</p>
+                        {game.released > new Date() ? (<p> release in {game.calculatedDaysTillRelease} days</p>) : (<p> released: {game.formatedReleaseDate} </p>)}
+                    </div>
+                ))
+            }
+        </>
+    )
 }
 
 export default PriceGenerator

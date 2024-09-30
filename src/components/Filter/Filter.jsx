@@ -7,7 +7,8 @@ const Filter = ({ toSort, setToSort }) => {
     }
 
     return (
-        <div className='flex items-start flex-col'>
+        <div className='flex items-start flex-col'
+            data-aos="zoom-in">
             <label >
                 <input
                     type="radio"
