@@ -10,10 +10,12 @@ import Nav from './components/Nav/Nav'
 import Main from './components/MainPage/MainPage'
 import Added from './components/Added/Added'
 import AuthBtns from './components/AuthBtns/AuthBtns'
-import RegistrationForm from './components/RegistrationForm.jsx/RegistrationForm'
+import RegistrationForm from './components/RegistrationForm/RegistrationForm'
 import SignInForm from './components/SignInForm/SignInForm'
 import MainProvider from './providers/MainProvider'
-import ChatBot from './components/ChatBot/ChatBot'
+import ChatBot from './components/ChatBotComponents/ChatBot'
+import CouponRoulette from './components/CouponRoulette/CouponRoulette'
+import Footer from './components/Footer/Footer'
 import './App.css'
 
 function App() {
@@ -67,9 +69,11 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/added" element={<Added />} />
             <Route path='/sign-up' element={<RegistrationForm />} />
-            <Route path='/sign-in' element={<SignInForm />} />
+            <Route path='/sign-in' element={<SignInForm />} />\
+            <Route path='/roulette' element={<CouponRoulette />} />
           </Routes>
           <ChatBot />
+          <Footer/>
         </div>
       </BrowserRouter>
     </MainProvider>

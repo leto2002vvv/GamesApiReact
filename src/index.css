@@ -23,8 +23,8 @@
 	background: rgb(50, 34, 46);
 	background: linear-gradient(
 		90deg,
-		rgba(50, 34, 46, 1) 0%,
-		rgb(54, 21, 66) 63%,
+		rgb(51, 8, 41) 0%,
+		rgb(70, 33, 83) 63%,
 		rgb(44, 7, 48) 100%
 	);
 }
@@ -42,5 +42,41 @@
 @keyframes typing {
 	from {
 		width: 0;
+	}
+}
+
+.fade-from-right {
+	animation: fadeFromRight 1s;
+}
+
+@keyframes fadeFromRight {
+	from {
+		transform: translateX(100%);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
+.switch-dir-animation {
+	transform: rotateX(180deg);
+	transition: all 1s linear;
+}
+
+.reversed-switch-dir-animation{
+	transform: rotateX(-180deg);
+	transition: all 1s linear;
+}
+
+.reverse-fade-from-right{
+	animation: fadeToRight 1s;
+}
+
+@keyframes fadeToRight {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(200%);
 	}
 }

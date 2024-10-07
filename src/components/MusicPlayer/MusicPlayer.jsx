@@ -8,17 +8,16 @@ import xButton from '../../assets/x-btn.jpg'
 import MusicNote from '../../assets/music-note.svg'
 
 const MusicPlayer = ({ tracks }) => {
-    const refs = useRef({
-        songNameRef: null,
-        bandNameRef: null,
-        songCoverRef: null,
-        audioRef: null,
-        btnPlayStopRef: null
-    })
+    const songNameRef = useRef(null)
+    const bandNameRef = useRef(null)
+    const songCoverRef = useRef(null)
+    const audioRef = useRef(null)
+    const btnPlayStopRef = useRef(null)
 
     const [playerDetails, setPlayerDetails] = useState({
         currentIndex: 1,
-        isPlaying: false
+        isPlaying: false,
+        isLoading: false
     })
 
     const nextSong = () => { // следующий трек
@@ -39,17 +38,17 @@ const MusicPlayer = ({ tracks }) => {
         }))
     }
 
-    // useEffect(() => {
-    //     const audio = refs.current.audioRef;
+    useEffect(() => {
+        const audio = audioRef.current
 
-    //     if (playerDetails.isPlaying) {
-    //         audio.play()
-    //         refs.current.btnPlayStopRef.textContent = 'stop'
-    //     } else {
-    //         audio.pause()
-    //         refs.current.btnPlayStopRef.textContent = 'play'
-    //     }
-    // }, [playerDetails.isPlaying])
+        if (playerDetails.isPlaying) {
+            audio.play()
+            btnPlayStopRef.textContent = 'stop'
+        } else {
+            audio.pause()
+            btnPlayStopRef.textContent = 'play'
+        }
+    }, [playerDetails.isPlaying])
 
     const formWaveSurferOptions = (ref) => ({
         container: ref,
@@ -65,11 +64,15 @@ const MusicPlayer = ({ tracks }) => {
     })
 
     useEffect(() => {
-        const displaySongsName = async () => {
+        const displaySongsName = () => {
+            setPlayerDetails(prev => ({
+                ...prev,
+                isLoading: true
+            }))
 
-            const songName = refs.songNameRef.current
-            const bandName = refs.bandNameRef.current
-            const songCover = refs.songCoverRef.current
+            const songName = songNameRef.current
+            const bandName = bandNameRef.current
+            const songCover = songCoverRef.current
 
             let bandLink = `<a href = "${tracks[playerDetails.currentIndex].page}"
                                target = '_blank'
@@ -105,7 +108,7 @@ const MusicPlayer = ({ tracks }) => {
                 <audio
                     src={tracks[playerDetails.currentIndex].src}
                     // autoPlay
-                    ref={refs.current.audioRef}>
+                    ref={audioRef}>
                 </audio>
 
                 <figure className='cursor-pointer flex gap-1 items-center hover: transition-all transform hover:translate-x-1  duration-500 ease-in-out'
@@ -128,7 +131,7 @@ const MusicPlayer = ({ tracks }) => {
                             }
                         })
                     }}
-                    ref={refs.current.btnPlayStopRef}>
+                    ref={btnPlayStopRef}>
                     stop
                 </button>
 
@@ -155,14 +158,14 @@ const MusicPlayer = ({ tracks }) => {
                             src={tracks[playerDetails.currentIndex].poster}
                             id='cover'
                             alt='cover'
-                            ref={refs.current.songCoverRef}
+                            ref={songCoverRef}
                             loading='lazy'
                         />
                     </div>
                     <div className=' whitespace-nowrap overflow-ellipsis'>
                         <div className='bouncing-text'>
-                            <p id='bandName' ref={refs.current.bandNameRef} className='songsText leading-none typing-animation'></p>
-                            <p id='songName' ref={refs.current.songNameRef} className='songsText typing-animation'></p>
+                            <p id='bandName' ref={bandNameRef} className='songsText leading-none typing-animation'></p>
+                            <p id='songName' ref={songNameRef} className='songsText typing-animation'></p>
                         </div>
                     </div>
                 </div>

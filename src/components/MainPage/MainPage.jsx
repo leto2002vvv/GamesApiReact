@@ -63,7 +63,7 @@ const MainPage = () => {
     return (
         <>
             {isLoading ? (
-                <div className='relative min-h-screeen'>
+                <div className='relative min-h-screen'>
                     <div className='absolute inset-0'>loading...</div>
                 </div>
             ) : SearchVisible ? (

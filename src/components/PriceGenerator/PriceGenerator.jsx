@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useMemo } from "react"
 import { useGameDataContext } from "../../providers/PriceAndReleaseProvider"
 
 const PriceGenerator = ({ games }) => {
@@ -45,28 +45,31 @@ const PriceGenerator = ({ games }) => {
         return counterToRelease
     }
 
-    const CalculatedFormattedGames = games.map(game => ({
-        ...game,
-        calculatedPrice: calculatePrice(game),
-        formatedReleaseDate: formateReleaseDate(game.released),
-        calculatedDaysTillRelease: calculateDaysTillRelease(game.released),
-    }))
+
+    const CalculatedFormattedGames = useMemo(() => (
+        games.map(game => ({
+            ...game,
+            calculatedPrice: calculatePrice(game),
+            formattedReleaseDate: formateReleaseDate(game.released),
+            calculatedDaysTillRelease: calculateDaysTillRelease(game.released),
+        }))
+    ), [games])
 
     useEffect(() => {
-
-    })
-
+        setGameData(CalculatedFormattedGames)
+        console.log(gameData);
+    }, [CalculatedFormattedGames])
 
     return (
         <>
-            {
+            {/* {
                 CalculatedFormattedGames.map((game, index) => (
                     <div key={index}>
                         <p> price: {game.calculatedPrice}</p>
-                        {game.released > new Date() ? (<p> release in {game.calculatedDaysTillRelease} days</p>) : (<p> released: {game.formatedReleaseDate} </p>)}
+                        {game.released > new Date() ? (<p> release in {game.calculatedDaysTillRelease} days</p>) : (<p> released: {game.formattedReleaseDate} </p>)}
                     </div>
                 ))
-            }
+            } */}
         </>
     )
 }
