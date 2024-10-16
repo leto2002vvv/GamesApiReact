@@ -1,21 +1,20 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-import '../GameCardModal/GameCardModal.css'
 import GameCardModal from '../GameCardModal/GameCardModal'
 import cartAdd from '../../assets/cartAdd.svg'
 import NotificationAdded from '../NotificationAdded/NotificationAdded'
 import PriceGenerator from '../PriceGenerator/PriceGenerator'
-import { useGameContext } from '../../providers/GameProvider'
 import ArrowDown from '../ArrowDown/ArrowDown'
+
+import '../GameCardModal/GameCardModal.css'
+import { useGameContext } from '../../providers/GameProvider'
 import { useGameDataContext } from '../../providers/PriceAndReleaseProvider'
-// import { useGameCounterContext } from '../../providers/GameCounter';
 
 const GameList = ({ games, isLoading }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [currGame, setCurrGame] = useState(null)
   const { IsGameAdded, setIsGameAdded } = useGameContext()
   const { gameData } = useGameDataContext()
-  // const { ItemStorageCounter, itemsInCart } = useContext();
 
   const openModal = (game) => {
     setModalVisible(true)
@@ -43,9 +42,9 @@ const GameList = ({ games, isLoading }) => {
     <div>
       {isLoading ? // условие если загрузка началась
         (<div className='flex justify-center items-center h-100% mx-auto'> Loading... </div>) :
-        gameData.length > 0 ? // условие, когда загрузка завершилась, и мы рендерим получившееся на страницу
+        games.length > 0 ? // условие, когда загрузка завершилась, и мы рендерим получившееся на страницу
           (<ul className='grid md:grid-cols-4 gap-4 sm:grid-cols-2'>
-            {gameData.map((game) =>
+            {games.map((game) =>
               <li key={game.id}
                 className='img-bg w-[160px] flex justify-center items-center shadow-2xl cursor-pointer'
                 data-woah-speed="slow"
@@ -87,7 +86,7 @@ const GameList = ({ games, isLoading }) => {
           (<p> </p>) // ТУТ ДОЛЖНО БЫТЬ ТИПО NOTHING FOUND. НО ИЗ-ЗА ТОГО ЧТО СЕЙЧАС СТОИТ ISLOADING FALSE, ТО ВЫПОЛНЯЕТСЯ УСЛОВИЕ В ЭТОЙ <P></P>.  В ЕЛЕМЕНТЕ, В КОТОРОМ МЫ УКАЗ. ПРОПСЫ ПОЯВЛЯЕТСЯ ЭТА САМАЯ <P></P>
       }
       <GameCardModal visible={modalVisible} onClose={() => setModalVisible(false)} currGame={currGame} />
-      <PriceGenerator games={games} />
+      <PriceGenerator />
       <ArrowDown />
     </div>
   )

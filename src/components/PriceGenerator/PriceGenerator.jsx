@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useMemo } from "react"
 import { useGameDataContext } from "../../providers/PriceAndReleaseProvider"
 
-const PriceGenerator = ({ games }) => {
+const PriceGenerator = () => {
     const { gameData, setGameData } = useGameDataContext()
 
     const calculatePrice = (game) => {
@@ -47,13 +47,13 @@ const PriceGenerator = ({ games }) => {
 
 
     const CalculatedFormattedGames = useMemo(() => (
-        games.map(game => ({
+        gameData.map(game => ({
             ...game,
             calculatedPrice: calculatePrice(game),
             formattedReleaseDate: formateReleaseDate(game.released),
             calculatedDaysTillRelease: calculateDaysTillRelease(game.released),
         }))
-    ), [games])
+    ), [])
 
     useEffect(() => {
         setGameData(CalculatedFormattedGames)

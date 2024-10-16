@@ -1,21 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useGameDataContext } from "../../providers/PriceAndReleaseProvider"
 
-import InputSearch from '../InputSearch/InputSearch'
-import GameList from '../GameList/GameList'
-import Filter from '../Filter/Filter'
 import Search from '../../assets/search.svg'
+import Filter from '../Filter/Filter'
+import GameList from '../GameList/GameList'
+import InputSearch from '../InputSearch/InputSearch'
 import StartPageSlider from '../StartPageSlider/StartPageSlider'
 
 const MainPage = () => {
-
-    const [games, setGames] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [toSort, setToSort] = useState('newest')
     const [SearchVisible, setSearchVisible] = useState(true)
     const [btnShowSearch, setBtnShowSearch] = useState(false)
-    const [isGameListVisible, setSsGameListVisible] = useState(false)
-
-    // const apiKey = process.env.API_KEY;
+    const { gameData, setGameData } = useGameDataContext()
 
     const handleShowSearch = () => {
         setBtnShowSearch(!btnShowSearch)
@@ -34,8 +31,8 @@ const MainPage = () => {
                 released: new Date(game.released)
             }))
 
-            setGames(parsedData)
-            console.log('полученые игры: ', games)
+            setGameData(parsedData)
+            console.log('полученные игры: ', gameData)
 
         } catch (error) {
             console.error('Ошибка при загрузке данных:', error)
@@ -47,7 +44,7 @@ const MainPage = () => {
     }
 
     const sortGames = (arr, value) => { // sorting games arr by age and rating 
-        return arr.sort((a, b) => {
+        return [...arr].sort((a, b) => {
             if (value === 'newest') {
                 return b.released - a.released
             } else if (value === 'best') {
@@ -58,7 +55,7 @@ const MainPage = () => {
         })
     }
 
-    const toSortFunc = sortGames(games, toSort) // here is the func sortGames being called
+    const sortedGames = sortGames(gameData, toSort)
 
     return (
         <>
@@ -69,7 +66,7 @@ const MainPage = () => {
             ) : SearchVisible ? (
                 <>
                     <InputSearch onSearch={fetchGames} />
-                    <GameList games={games} isLoading={isLoading} />
+                    <GameList games={sortedGames} isLoading={isLoading} />
                     <StartPageSlider />
                 </>
             ) :
@@ -80,7 +77,7 @@ const MainPage = () => {
                         </button>
                         <Filter toSort={toSort} setToSort={setToSort} />
                     </div>
-                    <GameList games={games} isLoading={isLoading} />
+                    <GameList games={sortedGames} isLoading={isLoading} />
                 </>
             }
         </>
