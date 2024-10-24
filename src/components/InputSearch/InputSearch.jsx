@@ -1,17 +1,27 @@
-import { useState, useRef } from 'react'
-
+import { useState, useRef, useEffect } from 'react'
+import { useGetGamesQuery } from '../../services/apiSlice'
+import { getGames } from '../../slices/gameSlice'
+import { useDispatch } from 'react-redux'
 import './InputSearch.css'
 
-const InputSearch = ({ onSearch }) => {
+const InputSearch = () => {
     const [inputValue, setInputValue] = useState('')
+    const [searchValue, setSearchValue] = useState('')
     const inputRef = useRef(null)
+    const dispatch = useDispatch()
 
-    const setNewSearchTerm = (e) => {
-        setInputValue(e.target.value)
-    }
+    const { data } = useGetGamesQuery(searchValue, {
+        skip: !searchValue
+    })
 
-    const sendFetch = () => {
-        onSearch(inputValue)
+    useEffect(() => {
+        if (data) {
+            dispatch(getGames(data))
+        }
+    }, [data])
+
+    const handleSetSearchValue = () => {
+        setSearchValue(inputValue)
     }
 
     const activateInputByClickOnLabel = () => { // activate input by clicking on label
@@ -21,9 +31,14 @@ const InputSearch = ({ onSearch }) => {
     const sendFetchByEnter = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault()
-            sendFetch()
+            setSearchValue(inputValue)
         }
     }
+
+    // ================= 
+    console.log(inputValue)
+    console.log(searchValue)
+    console.log(data)
 
     return (
         <>
@@ -36,7 +51,7 @@ const InputSearch = ({ onSearch }) => {
                         placeholder=''
                         id="search"
                         value={inputValue} // передаем в app value input'a 
-                        onChange={setNewSearchTerm}
+                        onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={sendFetchByEnter}
                         className="w-full py-2 px-4 border rounded-s-xl border-white hover:border-purple-500 focus:outline-none text-sm font-medium text-white-700 bg-transparent active:opacity-10 transition-all  transform   duration-500 ease-in-out border-r-0 hover:blur-[1px] transition-100    input" />
                     <label
@@ -48,7 +63,7 @@ const InputSearch = ({ onSearch }) => {
                 </div>
                 <button
                     className="py-2 w-40 px-4 bg-none text-right border rounded-e-xl border-white hover:border-purple-500 hover:blur-[1px] transition-100 border-l-0 text-sm font-medium text-white active:opacity-10   transition-all  transform hover:translate-x-1  duration-500 ease-in-out"
-                    onClick={sendFetch} // запрос fetch по клику
+                    onClick={handleSetSearchValue}
                 >search</button>
             </div>
         </>

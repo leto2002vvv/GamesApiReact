@@ -1,8 +1,13 @@
-import React, { useEffect, useContext, useMemo } from "react"
-import { useGameDataContext } from "../../providers/PriceAndReleaseProvider"
+import { useEffect, useMemo } from "react"
+import { useDispatch, useSelector } from 'react-redux'
+
+import { getTransformedGames } from '../../slices/gameSlice'
 
 const PriceGenerator = () => {
-    const { gameData, setGameData } = useGameDataContext()
+    const games = useSelector(state => state.gameReducer.games)
+    const dispatch = useDispatch()
+
+    console.log(games)
 
     const calculatePrice = (game) => {
         const rating = game.rating || 0
@@ -46,32 +51,16 @@ const PriceGenerator = () => {
     }
 
 
-    const CalculatedFormattedGames = useMemo(() => (
-        gameData.map(game => ({
+    const CalculatedFormattedGames = (
+        games.map(game => ({
             ...game,
             calculatedPrice: calculatePrice(game),
             formattedReleaseDate: formateReleaseDate(game.released),
             calculatedDaysTillRelease: calculateDaysTillRelease(game.released),
         }))
-    ), [])
-
-    useEffect(() => {
-        setGameData(CalculatedFormattedGames)
-        console.log(gameData);
-    }, [CalculatedFormattedGames])
-
-    return (
-        <>
-            {/* {
-                CalculatedFormattedGames.map((game, index) => (
-                    <div key={index}>
-                        <p> price: {game.calculatedPrice}</p>
-                        {game.released > new Date() ? (<p> release in {game.calculatedDaysTillRelease} days</p>) : (<p> released: {game.formattedReleaseDate} </p>)}
-                    </div>
-                ))
-            } */}
-        </>
     )
+    
+    dispatch(getTransformedGames(CalculatedFormattedGames))
 }
 
 export default PriceGenerator

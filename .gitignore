@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 _tasks.txt
-*.env
+config.js

@@ -1,20 +1,23 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import '../GameCardModal/GameCardModal.css'
+
+import { useGameContext } from '../../providers/IsGameAddedProvider'
+import { addItem } from '../../slices/cartCounterSlice'
 
 import GameCardModal from '../GameCardModal/GameCardModal'
-import cartAdd from '../../assets/cartAdd.svg'
 import NotificationAdded from '../NotificationAdded/NotificationAdded'
 import PriceGenerator from '../PriceGenerator/PriceGenerator'
+
+import cartAdd from '../../assets/cartAdd.svg'
 import ArrowDown from '../ArrowDown/ArrowDown'
 
-import '../GameCardModal/GameCardModal.css'
-import { useGameContext } from '../../providers/GameProvider'
-import { useGameDataContext } from '../../providers/PriceAndReleaseProvider'
-
-const GameList = ({ games, isLoading }) => {
+const GameList = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [currGame, setCurrGame] = useState(null)
   const { IsGameAdded, setIsGameAdded } = useGameContext()
-  const { gameData } = useGameDataContext()
+  const games = useSelector(state => state.gameReducer.games) || []
+  const dispatch = useDispatch()
 
   const openModal = (game) => {
     setModalVisible(true)
@@ -22,10 +25,7 @@ const GameList = ({ games, isLoading }) => {
   }
 
   const addToCart = (game) => {
-    const existingCart = JSON.parse(localStorage.getItem('cart')) || []
-    const newCart = [...existingCart, game]
-    localStorage.setItem('cart', JSON.stringify(newCart))
-
+    dispatch(addItem(game))
     showNotification(game)
   }
 
@@ -33,14 +33,11 @@ const GameList = ({ games, isLoading }) => {
     setIsGameAdded(true)
     setCurrGame(game)
   }
-
-  // useEffect(() => {
-
-  // }, [itemsInCart])
+  console.log(games)
 
   return (
     <div>
-      {isLoading ? // условие если загрузка началась
+      {typeof (games) === 'undefined' ? // условие если загрузка началась
         (<div className='flex justify-center items-center h-100% mx-auto'> Loading... </div>) :
         games.length > 0 ? // условие, когда загрузка завершилась, и мы рендерим получившееся на страницу
           (<ul className='grid md:grid-cols-4 gap-4 sm:grid-cols-2'>
@@ -65,7 +62,7 @@ const GameList = ({ games, isLoading }) => {
                     onClick={() => openModal(game)}>
                     <h5
                       className='max-w-[160px] w-full text-[11px] backdrop-blur-xl backdrop-filter-xl rounded transform hover:-translate-y-1 transition-all duration-500 ease-out-in  text-shadow'> {game.name.toLowerCase()} </h5>
-                    {IsGameAdded ? <NotificationAdded IsGameAdded={IsGameAdded} setIsGameAdded={setIsGameAdded} currGame={currGame} /> : null}
+                    {IsGameAdded && <NotificationAdded IsGameAdded={IsGameAdded} setIsGameAdded={setIsGameAdded} currGame={currGame} />}
                     <p className='text-[9px]'>
                       {game.released > new Date() ? (<p> release in {game.calculatedDaysTillRelease} days</p>) : (<p> released: {game.formattedReleaseDate} </p>)}
                     </p>
@@ -86,7 +83,7 @@ const GameList = ({ games, isLoading }) => {
           (<p> </p>) // ТУТ ДОЛЖНО БЫТЬ ТИПО NOTHING FOUND. НО ИЗ-ЗА ТОГО ЧТО СЕЙЧАС СТОИТ ISLOADING FALSE, ТО ВЫПОЛНЯЕТСЯ УСЛОВИЕ В ЭТОЙ <P></P>.  В ЕЛЕМЕНТЕ, В КОТОРОМ МЫ УКАЗ. ПРОПСЫ ПОЯВЛЯЕТСЯ ЭТА САМАЯ <P></P>
       }
       <GameCardModal visible={modalVisible} onClose={() => setModalVisible(false)} currGame={currGame} />
-      <PriceGenerator />
+      {/* <PriceGenerator /> */}
       <ArrowDown />
     </div>
   )

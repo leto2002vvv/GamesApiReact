@@ -1,6 +1,6 @@
-import { GameProvider } from "./GameProvider";
-import { GameCounter } from "./GameCounter";
-import { GameDataProvider } from "./PriceAndReleaseProvider";
+import { GameCounter } from "./GameCounter"
+import { GameDataProvider } from "./GameDataProvider"
+import { GameProvider } from "./IsGameAddedProvider"
 
 const MainProvider = ({ children }) => (
     <>
@@ -14,4 +14,4 @@ const MainProvider = ({ children }) => (
     </>
 )
 
-export default MainProvider;
+export default MainProvider

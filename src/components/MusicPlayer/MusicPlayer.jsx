@@ -1,6 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react'
-import WaveSurfer from 'wavesurfer.js'
-
 import './MusicPlayer.css'
 
 import Triangle from '../../assets/triangle-btn.jpg'
@@ -49,19 +47,6 @@ const MusicPlayer = ({ tracks }) => {
             btnPlayStopRef.textContent = 'play'
         }
     }, [playerDetails.isPlaying])
-
-    const formWaveSurferOptions = (ref) => ({
-        container: ref,
-        waveColor: '#ccc',
-        progressColor: '#0178ff',
-        cursorColor: 'transparent',
-        responsive: true,
-        height: 80,
-        normalize: true,
-        backend: 'WebAudio',
-        barWidth: 2,
-        barGap: 3
-    })
 
     useEffect(() => {
         const displaySongsName = () => {
