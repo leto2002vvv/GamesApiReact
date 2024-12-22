@@ -1,8 +1,9 @@
-# React + Vite
+This is my final project at the Beetroot Academy. It is a website that uses the RAWG Database API to display a list of video games, utilizing the following technologies:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+On the master branch: Vite, React, Tailwind CSS, Context API.
+On the refactoring branch: I replaced React Context with Redux Toolkit, used RTK Query for asynchronous requests, and also added React Hook Form.
 
-Currently, two official plugins are available:
+Dies ist mein Abschlussprojekt an der Beetroot Academy. Es handelt sich um eine Website, die die RAWG-Datenbank-API verwendet, um eine Liste von Videospielen anzuzeigen, und dabei die folgenden Technologien einsetzt:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Auf dem master-Branch: Vite, React, Tailwind CSS, Context API.
+Auf dem refactoring-Branch: Ich habe React Context durch Redux Toolkit ersetzt, RTK Query für asynchrone Anfragen verwendet und React Hook Form hinzugefügt.
