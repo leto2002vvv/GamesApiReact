@@ -1,9 +1,34 @@
-This is my final project at the Beetroot Academy. It is a website that uses the RAWG Database API to display a list of video games, utilizing the following technologies:
+# Game store react app
 
-On the master branch: Vite, React, Tailwind CSS, Context API.
-On the refactoring branch: I replaced React Context with Redux Toolkit, used RTK Query for asynchronous requests, and also added React Hook Form.
+## Beschreibung:
+Dies ist eine Anwendung zum Durchsuchen einer Spieledatenbank mit Anzeige, Beschreibung und der Generierung eines individuellen Preises basierend auf Schlüsselfaktoren. Sie enthält einen benutzerdefinierten Musikplayer, ermöglicht das Filtern der Spieleliste, das Hinzufügen von Spielen zum Warenkorb und das Entfernen aus diesem.
+	Es gibt zwei Hauptzweige im GitHub-Repository: master und refactoring. Der Unterschied zwischen ihnen liegt in den verwendeten Technologien.
 
-Dies ist mein Abschlussprojekt an der Beetroot Academy. Es handelt sich um eine Website, die die RAWG-Datenbank-API verwendet, um eine Liste von Videospielen anzuzeigen, und dabei die folgenden Technologien einsetzt:
+## Description:
+This is an application for searching a game database with display, description, and generating a unique price based on key factors. It includes a custom music player, allows filtering the game list, adding games to the cart, and removing them from it.\
+	There are two key branches in the GitHub repository: master and refactoring. The difference between them lies in the technologies used.
 
-Auf dem master-Branch: Vite, React, Tailwind CSS, Context API.
-Auf dem refactoring-Branch: Ich habe React Context durch Redux Toolkit ersetzt, RTK Query für asynchrone Anfragen verwendet und React Hook Form hinzugefügt.
+### Technologien im master-Zweig / The technologies in the master branch:
+	Vite, 
+	React, 
+	Tailwind CSS, 
+	Context API
+
+### Technologien im refactoring-Zweig / The technologies in the refactoring branch :
+	Vite,
+	React,
+	Redux toolkit,
+	RTK Query,
+	React Hook Form
+
+##### Deployed Project :
+
+
+###### Installation:
+	git clone https://github.com/leto2002vvv/GamesApiReact.git
+
+
+
+
+
+

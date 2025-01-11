@@ -1,6 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react'
-import WaveSurfer from 'wavesurfer.js'
-
 import './MusicPlayer.css'
 
 import Triangle from '../../assets/triangle-btn.jpg'
