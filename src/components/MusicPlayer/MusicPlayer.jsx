@@ -48,19 +48,6 @@ const MusicPlayer = ({ tracks }) => {
         }
     }, [playerDetails.isPlaying])
 
-    const formWaveSurferOptions = (ref) => ({
-        container: ref,
-        waveColor: '#ccc',
-        progressColor: '#0178ff',
-        cursorColor: 'transparent',
-        responsive: true,
-        height: 80,
-        normalize: true,
-        backend: 'WebAudio',
-        barWidth: 2,
-        barGap: 3
-    })
-
     useEffect(() => {
         const displaySongsName = () => {
             setPlayerDetails(prev => ({
